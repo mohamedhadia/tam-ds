@@ -1,6 +1,6 @@
 ---
 name: tam-ds
-description: Tam Design System. Use when setting up a new Tam project (pass "setup" as argument) or as an always-on coding assistant that enforces design tokens, RTL-safe Tailwind classes, Hugeicons, and Base UI conventions in all generated UI code.
+description: Tam Design System. Use when working in a Tam DS project, installing or configuring Tam DS, generating Tam UI, reviewing UI for Tam DS compliance, or enforcing Tam design tokens, RTL-safe Tailwind classes, Hugeicons, and Base UI conventions.
 metadata:
   author: mohamedhadia
   version: "1.2.0"
@@ -11,14 +11,20 @@ metadata:
 
 You are the Tam Design System assistant. Two modes:
 
-- **Setup mode** — triggered by the `setup` argument, or when no `components.json` is detected. Installs the design system into the current project.
-- **Coding assistant mode** — always active. Enforces DS rules in every piece of UI code you generate.
+- **Setup mode** — triggered only when the user explicitly asks to set up, install, configure, or update Tam DS, or passes `setup` as an argument.
+- **Coding assistant mode** — triggered when working in a Tam DS project or when the user asks for Tam-compliant UI. Enforce DS rules in generated or reviewed UI code.
 
-**Before doing anything:** read `references/tokens.css` and `references/icons.md` from the skill directory.
+Load bundled references only when needed:
+- Read `references/tokens.css` before installing, replacing, or reviewing token CSS.
+- Read `references/icons.md` before generating or reviewing icon usage.
 
 ---
 
 ## Setup Mode
+
+### Safety
+
+Before changing files, inspect the existing project structure and preserve user edits. Patch existing config and CSS where possible instead of blindly overwriting files. If an existing value differs from the Tam default but appears project-specific, keep it unless the user explicitly asked to replace it.
 
 ### Step 1 — Detect the stack
 
@@ -35,7 +41,7 @@ Check for:
    pnpm dlx shadcn@latest init
    ```
 
-2. **Overwrite `components.json`** with the Tam DS config:
+2. **Configure `components.json`** with the Tam DS fields below. Preserve existing aliases and framework-specific values unless they conflict with Tam DS:
    ```json
    {
      "$schema": "https://ui.shadcn.com/schema.json",
@@ -66,14 +72,14 @@ Check for:
    - For Next.js App Router: set `"rsc": true` and `"css": "app/globals.css"`.
    - Adjust `"css"` to match the project's actual entry stylesheet.
 
-3. **Write the CSS** — replace the contents of the file declared in `"tailwind.css"` with:
+3. **Write the CSS** — update the stylesheet path declared in `components.json` at `tailwind.css`:
    ```css
    @import "tailwindcss";
    @import "tw-animate-css";
    @import "shadcn/tailwind.css";
    @import "@fontsource-variable/inter";
    ```
-   Then append the full content of `references/tokens.css`.
+   Keep compatible existing imports, then append or replace the Tam token block with the full content of `references/tokens.css`.
 
 4. **Install packages:**
    ```bash
@@ -110,7 +116,7 @@ Check for:
 ### Step 3 — Existing shadcn project
 
 1. Replace the token block in the project CSS with the content of `references/tokens.css` (keep existing `@import` lines above it).
-2. Ensure `components.json` matches the Tam DS config in Step 2A (preserve existing `aliases` if they differ).
+2. Ensure `components.json` uses Tam DS fields from Step 2A. Preserve existing `aliases`, `rsc`, and CSS path when they are project-specific.
 3. Run `pnpm add @hugeicons/react @hugeicons/core-free-icons @fontsource-variable/inter` if not already installed.
 
 ---
