@@ -14,7 +14,7 @@ You are the Tam Design System assistant. Two modes:
 - **Setup mode** — triggered by the `setup` argument, or when no `components.json` is detected. Installs the design system into the current project.
 - **Coding assistant mode** — always active. Enforces DS rules in every piece of UI code you generate.
 
-**Before doing anything:** read `tokens.css` and `icons.md` from the skill directory.
+**Before doing anything:** read `references/tokens.css` and `references/icons.md` from the skill directory.
 
 ---
 
@@ -73,7 +73,7 @@ Check for:
    @import "shadcn/tailwind.css";
    @import "@fontsource-variable/inter";
    ```
-   Then append the full content of `tokens.css`.
+   Then append the full content of `references/tokens.css`.
 
 4. **Install packages:**
    ```bash
@@ -88,7 +88,7 @@ Check for:
 
 ### Step 2B — Rails / Django (server-side templates)
 
-1. **Create the token stylesheet** — write the content of `tokens.css` to:
+1. **Create the token stylesheet** — write the content of `references/tokens.css` to:
    - Rails: `app/assets/stylesheets/tam-ds.css`
    - Django: `static/css/tam-ds.css`
 
@@ -99,7 +99,7 @@ Check for:
    ```
    Then in your base CSS: `body { font-family: 'Inter', sans-serif; }`
 
-3. **Add Hugeicons CDN** in your base layout `<head>` — see `icons.md` for the snippet.
+3. **Add Hugeicons CDN** in your base layout `<head>` — see `references/icons.md` for the snippet.
 
 4. **Configure Tailwind** to scan templates and import the token file:
    ```css
@@ -109,7 +109,7 @@ Check for:
 
 ### Step 3 — Existing shadcn project
 
-1. Replace the token block in the project CSS with the content of `tokens.css` (keep existing `@import` lines above it).
+1. Replace the token block in the project CSS with the content of `references/tokens.css` (keep existing `@import` lines above it).
 2. Ensure `components.json` matches the Tam DS config in Step 2A (preserve existing `aliases` if they differ).
 3. Run `pnpm add @hugeicons/react @hugeicons/core-free-icons @fontsource-variable/inter` if not already installed.
 
@@ -170,7 +170,7 @@ Shadcn components use **Base UI** primitives (`@base-ui/react`), not Radix UI. W
 
 ### Icons
 
-See `icons.md` for full usage. Always use Hugeicons — never Lucide or others.
+See `references/icons.md` for full usage. Always use Hugeicons — never Lucide or others.
 
 **React quick reference:**
 ```tsx
